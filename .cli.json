@@ -1,0 +1,11 @@
+{
+  "name": "name-of-your-sample",
+  "configureDotEnv": true,
+  "integrations": [
+    {
+      "name": "main",
+      "clients": ["html"],
+      "servers": ["java", "node", "php", "python", "ruby", "node-typescript"]
+    }
+  ]
+}
