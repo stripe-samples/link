@@ -10,14 +10,16 @@ load_dotenv(find_dotenv())
 
 # For sample support and debugging, not required for production:
 stripe.set_app_info(
-    'stripe-samples/your-sample-name',
+    'stripe-samples/link-with-stripe',
     version='0.0.1',
-    url='https://github.com/stripe-samples')
+    url='https://github.com/stripe-samples/link-with-stripe')
 
-stripe.api_version = '2020-08-27'
+stripe.api_version = '2020-08-27;link_beta=v1'
 stripe.api_key = os.getenv('STRIPE_SECRET_KEY')
 
-static_dir = str(os.path.abspath(os.path.join(__file__ , "..", os.getenv("STATIC_DIR"))))
+static_dir = str(
+    os.path.abspath(os.path.join(__file__ , "..", os.getenv("STATIC_DIR"))))
+print(static_dir)
 app = Flask(__name__, static_folder=static_dir, static_url_path="", template_folder=static_dir)
 
 @app.route('/', methods=['GET'])
@@ -32,23 +34,16 @@ def get_config():
 
 @app.route('/create-payment-intent', methods=['POST'])
 def create_payment():
-    data = json.loads(request.data)
-
-    # Each payment method type has support for different currencies. In order to
-    # support many payment method types and several currencies, this server
-    # endpoint accepts both the payment method type and the currency as
-    # parameters.
-    #
-    # Some example payment method types include `card`, `ideal`, and `alipay`.
-    currency = data['currency']
-
     # Create a PaymentIntent with the amount, currency, and a payment method type.
     #
     # See the documentation [0] for the full list of supported parameters.
     #
     # [0] https://stripe.com/docs/api/payment_intents/create
     try:
-        intent = stripe.PaymentIntent.create(amount=1999, currency='usd')
+        intent = stripe.PaymentIntent.create(
+            amount=1999,
+            currency='usd',
+            payment_method_types=['link', 'card'])
 
         # Send PaymentIntent details to the front end.
         return jsonify({'clientSecret': intent.client_secret})

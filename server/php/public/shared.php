@@ -37,8 +37,7 @@ if (!$_ENV['STRIPE_SECRET_KEY']) {
   <p>It should look something like the following, but contain your <a href='https://dashboard.stripe.com/test/apikeys'>API keys</a>:</p>
   <pre>STRIPE_PUBLISHABLE_KEY=pk_test...
 STRIPE_SECRET_KEY=sk_test...
-STRIPE_WEBHOOK_SECRET=whsec_...
-DOMAIN=http://localhost:4242</pre>
+STRIPE_WEBHOOK_SECRET=whsec_...</pre>
   <hr>
 
   <p>You can use this command to get started:</p>
@@ -50,12 +49,12 @@ DOMAIN=http://localhost:4242</pre>
 
 // For sample support and debugging. Not required for production:
 \Stripe\Stripe::setAppInfo(
-  "stripe-samples/<your sample name>",
-  "0.0.2",
-  "https://github.com/stripe-samples"
+  "stripe-samples/link-with-stripe",
+  "0.0.1",
+  "https://github.com/stripe-samples/link-with-stripe"
 );
 
 $stripe = new \Stripe\StripeClient([
   'api_key' => $_ENV['STRIPE_SECRET_KEY'],
-  'stripe_version' => '2020-08-27',
+  'stripe_version' => '2020-08-27;link_beta=v1',
 ]);

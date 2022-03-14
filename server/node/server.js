@@ -5,11 +5,11 @@ const { resolve } = require('path');
 const env = require('dotenv').config({ path: './.env' });
 
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: '2020-08-27',
+  apiVersion: '2020-08-27;link_beta=v1',
   appInfo: { // For sample support and debugging, not required for production:
-    name: "stripe-samples/<your-sample-name>",
+    name: "stripe-samples/link-with-stripe",
     version: "0.0.1",
-    url: "https://github.com/stripe-samples"
+    url: "https://github.com/stripe-samples/link-with-stripe",
   }
 });
 
@@ -38,8 +38,6 @@ app.get('/config', (req, res) => {
 });
 
 app.post('/create-payment-intent', async (req, res) => {
-  const { currency } = req.body;
-
   // Create a PaymentIntent with the amount, currency, and a payment method type.
   //
   // See the documentation [0] for the full list of supported parameters.
@@ -48,7 +46,8 @@ app.post('/create-payment-intent', async (req, res) => {
   try {
     const paymentIntent = await stripe.paymentIntents.create({
       amount: 1999,
-      currency: currency,
+      currency: 'usd',
+      payment_method_types: ['link', 'card'],
     });
 
     // Send publishable key and PaymentIntent details to client
