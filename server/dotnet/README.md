@@ -1,4 +1,4 @@
-#
+# Link with Stripe
 
 An [.NET Core](https://dotnet.microsoft.com/download/dotnet-core) implementation
 

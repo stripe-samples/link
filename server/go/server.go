@@ -26,9 +26,9 @@ func main() {
 
 	// For sample support and debugging, not required for production:
 	stripe.SetAppInfo(&stripe.AppInfo{
-		Name:    "stripe-samples/your-sample-name",
+		Name:    "stripe-samples/link-with-stripe",
 		Version: "0.0.1",
-		URL:     "https://github.com/stripe-samples",
+		URL:     "https://github.com/stripe-samples/link-with-stripe",
 	})
 
 	http.Handle("/", http.FileServer(http.Dir(os.Getenv("STATIC_DIR"))))
@@ -64,17 +64,14 @@ func handleConfig(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
-type paymentIntentCreateReq struct {
-	Currency          string `json:"currency"`
-}
-
 func handleCreatePaymentIntent(w http.ResponseWriter, r *http.Request) {
-	req := paymentIntentCreateReq{}
-	json.NewDecoder(r.Body).Decode(&req)
-
 	params := &stripe.PaymentIntentParams{
 		Amount:             stripe.Int64(1999),
-		Currency:           stripe.String(req.Currency),
+		Currency:           stripe.String("usd"),
+		// PaymentMethodTypes: stripe.StringSlice([]string{"link", "card"}),
+		AutomaticPaymentMethods: &stripe.PaymentIntentAutomaticPaymentMethodsParams{
+			Enabled: stripe.Bool(true),
+		},
 	}
 
 	pi, err := paymentintent.New(params)

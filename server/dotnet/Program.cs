@@ -55,6 +55,12 @@ app.MapPost("create-payment-intent", async (PaymentIntentService service, ILogge
     {
       Amount = 1000,
       Currency = "usd",
+      // Best practice is to enable Link through the dashboard
+      // and use automatic payment methods. For this demo,
+      // we explicitly pass payment_method_types: ['link', 'card'],
+      // to be extra clear which payment method types are enabled.
+      //
+      //   AutomaticPaymentMethods = new() { Enabled: true },
       AutomaticPaymentMethods = new()
       {
         Enabled = true,
