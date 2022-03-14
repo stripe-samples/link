@@ -25,15 +25,6 @@ import io.github.cdimascio.dotenv.Dotenv;
 public class Server {
   private static Gson gson = new Gson();
 
-  static class CreatePaymentRequest {
-    @SerializedName("currency")
-    String currency;
-
-    public String getCurrency() {
-      return currency;
-    }
-  }
-
   static class ConfigResponse {
     private String publishableKey;
 
@@ -67,9 +58,9 @@ public class Server {
 
     // For sample support and debugging, not required for production:
     Stripe.setAppInfo(
-        "stripe-samples/<your-sample-name>",
+        "stripe-samples/link-with-stripe",
         "0.0.1",
-        "https://github.com/stripe-samples"
+        "https://github.com/stripe-samples/link-with-stripe"
         );
 
     staticFiles.externalLocation(
@@ -87,12 +78,12 @@ public class Server {
     post("/create-payment-intent", (request, response) -> {
       response.type("application/json");
 
-      CreatePaymentRequest postBody = gson.fromJson(request.body(), CreatePaymentRequest.class);
-
       PaymentIntentCreateParams createParams = new PaymentIntentCreateParams
         .Builder()
-        .setCurrency(postBody.getCurrency())
+        .setCurrency("usd")
         .setAmount(1999L)
+        .addPaymentMethodType("card")
+        .addPaymentMethodType("link")
         .build();
 
       try {
