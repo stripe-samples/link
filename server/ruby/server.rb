@@ -9,11 +9,11 @@ Dotenv.load
 
 # For sample support and debugging, not required for production:
 Stripe.set_app_info(
-  'stripe-samples/<name-of-sample>/[<name-of-integration-type>]',
+  'stripe-samples/link-with-stripe',
   version: '0.0.1',
-  url: 'https://github.com/stripe-samples'
+  url: 'https://github.com/stripe-samples/link-with-stripe'
 )
-Stripe.api_version = '2020-08-27'
+Stripe.api_version = '2020-08-27;link_beta=v1'
 Stripe.api_key = ENV['STRIPE_SECRET_KEY']
 
 set :static, true
@@ -41,11 +41,19 @@ post '/create-payment-intent' do
   payment_intent = Stripe::PaymentIntent.create(
     amount: 1000,
     currency: 'usd',
+    # Best practice is to enable Link through the dashboard
+    # and use automatic payment methods. For this demo,
+    # we explicitly pass payment_method_types: ['link', 'card'],
+    # to be extra clear which payment method types are enabled.
+    #
+    #   automatic_payment_methods: { enabled: true },
+    #
+    payment_method_types: ['link', 'card'],
   )
 
   # Send the PaymentIntent client_secret to the client.
   {
-    clientSecret: payment_intent['client_secret']
+    clientSecret: payment_intent.client_secret
   }.to_json
 end
 

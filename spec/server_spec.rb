@@ -12,4 +12,14 @@ RSpec.describe "<your integration name> integration" do
     expect(resp).to have_key("publishableKey")
     expect(resp['publishableKey']).to start_with("pk_test")
   end
+
+  it "Creates a payment intent" do
+    resp, status = post_json("/create-payment-intent", {})
+    expect(status).to eq(200)
+    expect(resp).to have_key("clientSecret")
+    expect(resp["clientSecret"]).to start_with("pi_")
+    client_secret = resp["clientSecret"]
+    pi = Stripe::PaymentIntent.retrieve(client_secret)
+    expect(pi.payment_method_types).to eq(['link', 'card'])
+  end
 end

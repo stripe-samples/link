@@ -9,7 +9,7 @@
   --headline-color: var(--gray-dark);
   --accent-color: #0066f0;
   --body-font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-  --radius: 6px;
+  --radius: 20px;
   --form-width: 343px;
 }
 
@@ -30,8 +30,8 @@ h4,
 h5,
 h6 {
   color: var(--body-color);
-  margin-top: 2px;
-  margin-bottom: 4px;
+  margin-top: 4px;
+  margin-bottom: 6px;
 }
 h1 {
   font-size: 27px;
@@ -103,6 +103,7 @@ h4 {
   margin: 16px 0;
 }
 label {
+
   font-size: 13px;
   font-weight: 500;
   margin-bottom: 8px;
@@ -522,4 +523,15 @@ pre {
     opacity: 1;
     transform: scale(1);
   }
+}
+
+#messages {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New';
+  display: none; /* hide initially, then show once the first message arrives */
+  background-color: #0A253C;
+  color: #00D924;
+  padding: 20px;
+  margin: 20px 0;
+  border-radius: var(--radius);
+  font-size:0.7em;
 }
