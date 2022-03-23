@@ -22,7 +22,6 @@ RSpec.describe 'PaymentElement', type: :system do
       fill_in 'number', with: '4242424242424242'
       fill_in 'expiry', with: '12 / 33'
       fill_in 'cvc', with: '123'
-      fill_in 'postalCode', with: '10000'
     end
 
     click_on 'Pay'
