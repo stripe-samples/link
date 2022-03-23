@@ -6,11 +6,11 @@ RSpec.describe 'PaymentElement', type: :system do
   end
 
   example 'happy path' do
-    within_frame first('form iframe[title*="Secure email input"][src*="elements-inner-authentication"]') do
+    within_frame first('form iframe[title*="Secure email input frame"]') do
       fill_in 'email', with: "test#{SecureRandom.hex(4)}@example.com"
     end
 
-    within_frame first('form iframe[title*="Shipping address input"][src*="elements-inner-shipping-address"]') do
+    within_frame first('form iframe[title*="Shipping address input frame"]') do
       fill_in 'name', with: "jenny rosen"
       fill_in 'addressLine1', with: "123 Main St"
       fill_in 'locality', with: "San Francisco"
@@ -18,7 +18,7 @@ RSpec.describe 'PaymentElement', type: :system do
       fill_in 'postalCode', with: "94111"
     end
 
-    within_frame first('form iframe[title*="payment input"][src*="elements-inner-payment"]') do
+    within_frame first('form iframe[title*="Secure payment input frame"]') do
       fill_in 'number', with: '4242424242424242'
       fill_in 'expiry', with: '12 / 33'
       fill_in 'cvc', with: '123'
