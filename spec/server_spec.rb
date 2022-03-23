@@ -19,7 +19,7 @@ RSpec.describe "<your integration name> integration" do
     expect(resp).to have_key("clientSecret")
     expect(resp["clientSecret"]).to start_with("pi_")
     client_secret = resp["clientSecret"]
-    pi = Stripe::PaymentIntent.retrieve(client_secret)
+    pi = Stripe::PaymentIntent.retrieve(client_secret.split("_secret").first)
     expect(pi.payment_method_types).to eq(['link', 'card'])
   end
 end
