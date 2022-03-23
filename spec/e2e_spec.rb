@@ -14,7 +14,8 @@ RSpec.describe 'PaymentElement', type: :system do
       fill_in 'Field-nameInput', with: "jenny rosen"
       fill_in 'addressLine1', with: "123 Main St"
       fill_in 'locality', with: "San Francisco"
-      fill_in 'postalCode', with: "94111"
+      fill_in 'Field-postalCodeInput', with: "94111"
+      select 'California', from: 'Field-administrativeAreaInput'
     end
 
     within_frame first('form iframe[title*="Secure payment input frame"]') do
