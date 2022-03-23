@@ -84,11 +84,13 @@ def payment_next():
         except:
             link_persistent_token = None
 
-    response = make_response(redirect('/success', code=307))
+    response = make_response(
+        redirect('/success?payment_intent_client_secret={}'.format(intent.client_secret)))
 
     if link_persistent_token is not None:
         # Set the cookie from the value returned on the PaymentIntent.
-        response.set_cookie(LINK_PERSISTENT_TOKEN_COOKIE_NAME,
+        response.set_cookie(
+            LINK_PERSISTENT_TOKEN_COOKIE_NAME,
             link_persistent_token,
             samesite='Strict',
             secure=True,
