@@ -44,6 +44,9 @@ jobs:
           for lang in $(cat .cli.json | server_langs_for_integration main)
           do
             [ "$lang" = "php" ] && continue
+            [ "$lang" = "java" ] && continue
+            [ "$lang" = "go" ] && continue
+            [ "$lang" = "dotnet" ] && continue
 
             configure_docker_compose_for_integration . "$lang" ../../client/html
 
