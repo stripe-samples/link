@@ -77,6 +77,31 @@ app.MapPost("create-payment-intent", async (PaymentIntentService service, ILogge
   }
 });
 
+app.MapGet("/payment/next", async (PaymentIntentService service, ILogger<Program> logger) =>
+{
+  try
+  {
+    var options = new PaymentIntentGetOptions();
+    options.AddExpand("payment_method");
+    var paymentIntent = await service.GetAsync(options);
+    if(paymentIntent.PaymentMethod.Link.PersistentToken) {
+        var cookie = new CookieHeaderValue(
+            "stripe.link.persistent_token",
+            paymentIntent.PaymentMethod.Link.PersistentToken);
+        cookie.Expires = DateTimeOffset.Now.AddDays(90);
+        cookie.Domain = Request.RequestUri.Host;
+        cookie.Path = "/";
+        resp.Headers.AddCookies(new CookieHeaderValue[] { cookie });
+    }
+    return Results.Redirect($"/success?payment_intent_client_secret={paymentIntent.ClientSecret}");
+  }
+  catch (StripeException e)
+  {
+    logger.LogError(e, "Error creating PaymentIntent");
+    return Results.BadRequest(new { error = new { message = e.StripeError.Message } });
+  }
+});
+
 app.MapPost("webhook", async (HttpRequest req) =>
 {
     var json = await new StreamReader(req.Body).ReadToEndAsync();
