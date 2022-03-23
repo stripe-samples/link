@@ -117,6 +117,11 @@ app.get('/payment/next', async (req, res) => {
   res.redirect(`/success?payment_intent_client_secret=${intent.client_secret}`);
 });
 
+app.get('/success', async (req, res) => {
+  const path = resolve(process.env.STATIC_DIR + '/success.html');
+  res.sendFile(path);
+});
+
 
 // Expose a endpoint as a webhook handler for asynchronous events.
 // Configure your webhook in the stripe developer dashboard
