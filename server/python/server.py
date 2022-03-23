@@ -1,12 +1,15 @@
 #! /usr/bin/env python3.6
+import datetime
 import stripe
 import json
 import os
 
-from flask import Flask, render_template, jsonify, request, send_from_directory
+from flask import Flask, render_template, jsonify, request, send_from_directory, make_response, redirect
 from dotenv import load_dotenv, find_dotenv
 
 load_dotenv(find_dotenv())
+
+LINK_PERSISTENT_TOKEN_COOKIE_NAME = 'stripe.link.persistent_token'
 
 # For sample support and debugging, not required for production:
 stripe.set_app_info(
@@ -43,7 +46,23 @@ def create_payment():
         intent = stripe.PaymentIntent.create(
             amount=1999,
             currency='usd',
-            payment_method_types=['link', 'card'])
+
+            # Best practice is to enable Link through the dashboard
+            # and use automatic payment methods. For this demo,
+            # we explicitly pass payment_method_types: ['link', 'card'],
+            # to be extra clear which payment method types are enabled.
+            #
+            #   automatic_payment_methods={ 'enabled': True },
+            #
+            payment_method_types=['link', 'card'],
+
+            # Optionally, include the link persistent token for the cookied
+            # Link session.
+            payment_method_options={
+                'link': {
+                    'persistent_token': request.cookies.get(LINK_PERSISTENT_TOKEN_COOKIE_NAME),
+                }
+            })
 
         # Send PaymentIntent details to the front end.
         return jsonify({'clientSecret': intent.client_secret})
@@ -51,6 +70,37 @@ def create_payment():
         return jsonify({'error': {'message': str(e)}}), 400
     except Exception as e:
         return jsonify({'error': {'message': str(e)}}), 400
+
+
+@app.route('/payment/next', methods=['GET'])
+def payment_next():
+    intent = stripe.PaymentIntent.retrieve(
+        request.args.get('payment_intent'),
+        expand=['payment_method'])
+
+    if intent.status == 'succeeded' or intent.status == 'processing':
+        try:
+            link_persistent_token = intent.payment_method.link.persistent_token
+        except:
+            link_persistent_token = None
+
+    response = make_response(redirect('/success', code=307))
+
+    if link_persistent_token is not None:
+        # Set the cookie from the value returned on the PaymentIntent.
+        response.set_cookie(LINK_PERSISTENT_TOKEN_COOKIE_NAME,
+            link_persistent_token,
+            samesite='Strict',
+            secure=True,
+            httponly=True,
+            expires=datetime.datetime.now() + datetime.timedelta(days=90))
+
+    return response
+
+
+@app.route('/success', methods=['GET'])
+def get_success():
+    return render_template('success.html')
 
 
 @app.route('/webhook', methods=['POST'])

@@ -67,7 +67,7 @@ post '/create-payment-intent' do
   }.to_json
 end
 
-get '/success' do
+get '/payment/next' do
   content_type 'text/html'
 
   intent = Stripe::PaymentIntent.retrieve({
@@ -76,24 +76,32 @@ get '/success' do
   })
 
   if intent.status == 'succeeded' || intent.status == 'processing'
-    # Set the cookie to the persistent token of the Link session.
-    # This will ensure the customer can avoid logging in again next time
-    # if they are in the same session.
-    link_persistent_token = intent.payment_method&.link&.persistent_token
-    if !link_persistent_token.nil?
-      response.set_cookie(
-        LINK_PERSISTENT_TOKEN_COOKIE_NAME,
-        {
-          value: link_persistent_token,
-          same_site: :strict,
-          secure: true,
-          httponly: true,
-          expires: Time.now + (60 * 60 * 24 * 90), # 90 days from now.
-        }
-      )
+    begin
+      # Set the cookie to the persistent token of the Link session.
+      # This will ensure the customer can avoid logging in again next time
+      # if they are in the same session.
+      link_persistent_token = intent.payment_method.link.persistent_token
+      if !link_persistent_token.nil?
+        response.set_cookie(
+          LINK_PERSISTENT_TOKEN_COOKIE_NAME,
+          {
+            value: link_persistent_token,
+            same_site: :strict,
+            secure: true,
+            httponly: true,
+            expires: Time.now + (60 * 60 * 24 * 90), # 90 days from now.
+          }
+        )
+      end
+    rescue NoMethodError
     end
   end
 
+  redirect "/success?payment_intent_client_secret=#{intent.client_secret}"
+end
+
+get '/success' do
+  content_type 'text/html'
   send_file File.join(settings.public_folder, 'success.html')
 end
 
