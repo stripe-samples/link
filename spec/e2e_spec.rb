@@ -15,14 +15,12 @@ RSpec.describe 'PaymentElement', type: :system do
       fill_in 'addressLine1', with: "123 Main St"
       fill_in 'locality', with: "San Francisco"
       fill_in 'postalCode', with: "94111"
-      fill_in 'postalCode', with: "94111"
     end
 
     within_frame first('form iframe[title*="Secure payment input frame"]') do
       fill_in 'number', with: '4242424242424242'
       fill_in 'expiry', with: '12 / 33'
       fill_in 'cvc', with: '123'
-      select 'United States', from: 'country'
       fill_in 'postalCode', with: '10000'
     end
 
