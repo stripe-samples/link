@@ -2,10 +2,29 @@
 require './shared.php';
 
 try {
+  $linkOptions = [];
+  if(isset($_COOKIE['stripe_link_persistent_token'])) {
+    $linkOptions = ['persistent_token' => $_COOKIE['stripe_link_persistent_token']];
+  }
+
   $paymentIntent = $stripe->paymentIntents->create([
-    'payment_method_types' => ['link', 'card'],
     'amount' => 1999,
     'currency' => 'usd',
+
+    // Best practice is to enable Link through the dashboard
+    // and use automatic payment methods. For this demo,
+    // we explicitly pass payment_method_types: ['link', 'card'],
+    // to be extra clear which payment method types are enabled.
+    //
+    //   'automatic_payment_methods' => [ 'enabled' => true ],
+    //
+    'payment_method_types' => ['link', 'card'],
+
+    // Optionally, include the link persistent token for the cookied
+    // Link session.
+    'payment_method_options' => [
+      'link' => $linkOptions,
+    ]
   ]);
 } catch (\Stripe\Exception\ApiErrorException $e) {
   http_response_code(400);

@@ -53,6 +53,7 @@ app.post('/create-payment-intent', async (req, res) => {
     const paymentIntent = await stripe.paymentIntents.create({
       amount: 1999,
       currency: 'usd',
+
       // Best practice is to enable Link through the dashboard
       // and use automatic payment methods. For this demo,
       // we explicitly pass payment_method_types: ['link', 'card'],
@@ -121,7 +122,6 @@ app.get('/success', async (req, res) => {
   const path = resolve(process.env.STATIC_DIR + '/success.html');
   res.sendFile(path);
 });
-
 
 // Expose a endpoint as a webhook handler for asynchronous events.
 // Configure your webhook in the stripe developer dashboard
