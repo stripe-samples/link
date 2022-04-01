@@ -1,11 +1,19 @@
 {
-  "name": "name-of-your-sample",
+  "name": "link-with-stripe",
   "configureDotEnv": true,
   "integrations": [
     {
       "name": "main",
-      "clients": ["html"],
-      "servers": ["java", "node", "php", "python", "ruby", "node-typescript"]
+      "clients": ["html", "react-cra"],
+      "servers": [
+        "dotnet",
+        "go",
+        "java",
+        "node",
+        "php",
+        "python",
+        "ruby"
+      ]
     }
   ]
 }

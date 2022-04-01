@@ -1,12 +1,13 @@
-# Link with Stripe
+# Link
 
-This sample shows how to integrate Link with Stripe which allows your customers
+This sample shows how to integrate Link which allows your customers
 to check out faster using a one-time-code.
 
 Features:
 
-- Authentication Element 😃
-- Shipping Address Element
+- 🔐Authentication Element
+- 📦Shipping Address Element
+- 🍪Merchant domain cookies
 
 
 ## How to run locally

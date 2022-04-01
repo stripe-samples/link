@@ -93,7 +93,8 @@ get '/payment/next' do
           }
         )
       end
-    rescue NoMethodError
+    rescue NoMethodError => e
+      puts "No method error #{e.message}"
     end
   end
 
