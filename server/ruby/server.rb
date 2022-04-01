@@ -43,6 +43,7 @@ post '/create-payment-intent' do
   payment_intent = Stripe::PaymentIntent.create(
     amount: 1000,
     currency: 'usd',
+
     # Best practice is to enable Link through the dashboard
     # and use automatic payment methods. For this demo,
     # we explicitly pass payment_method_types: ['link', 'card'],
