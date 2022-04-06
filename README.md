@@ -1,6 +1,6 @@
 # Link
 
-| :exclamation:  This payment method is still in beta, please email link-beta@stripe.com to request access.   |
+| :exclamation:  This payment method is limited to US based Stripe Accounts accepting USD. It's still in beta, please email link-beta@stripe.com to request access.   |
 |-------------------------------------------------------------------------------------------------------------|
 
 This sample shows how to integrate Link which allows your customers
