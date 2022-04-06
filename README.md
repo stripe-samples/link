@@ -1,5 +1,8 @@
 # Link
 
+| :exclamation:  This payment method is still in beta, please email link-beta@stripe.com to request access.   |
+|-------------------------------------------------------------------------------------------------------------|
+
 This sample shows how to integrate Link which allows your customers
 to check out faster using a one-time-code.
 
