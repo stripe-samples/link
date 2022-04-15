@@ -37,7 +37,7 @@ if (app.Environment.IsDevelopment())
 var staticFileOptions = new SharedOptions()
 {
     FileProvider = new PhysicalFileProvider(
-        Path.Combine(Directory.GetCurrentDirectory(), @"../../client/html")),
+        Path.Combine(Directory.GetCurrentDirectory(), builder.Configuration["STATIC_DIR"])),
 };
 app.UseDefaultFiles(new DefaultFilesOptions(staticFileOptions));
 app.UseStaticFiles(new StaticFileOptions(staticFileOptions));
@@ -130,4 +130,4 @@ app.MapPost("webhook", async (HttpRequest req) =>
     return Results.Ok();
 });
 
-app.Run("http://localhost:4242");
+app.Run();

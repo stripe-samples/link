@@ -12,7 +12,7 @@ function App() {
     fetch("/config").then(async (r) => {
       const { publishableKey } = await r.json();
       setStripePromise(loadStripe(publishableKey, {
-        betas: ['link_beta_2'],
+        betas: ['link_beta_3'],
         apiVersion: "2019-05-16;link_beta=v1"
       }));
     });

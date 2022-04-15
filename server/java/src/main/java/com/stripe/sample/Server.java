@@ -60,14 +60,13 @@ public class Server {
     Stripe.setAppInfo(
         "stripe-samples/link-with-stripe",
         "0.0.1",
-        "https://github.com/stripe-samples/link-with-stripe"
-        );
+        "https://github.com/stripe-samples/link-with-stripe");
 
     staticFiles.externalLocation(
         Paths.get(
-          Paths.get("").toAbsolutePath().toString(),
-          dotenv.get("STATIC_DIR")
-          ).normalize().toString());
+          Paths.get("").toAbsolutePath().toString(), dotenv.get("STATIC_DIR")
+        ).normalize().toString()
+    );
 
     get("/config", (request, response) -> {
       response.type("application/json");
@@ -83,7 +82,7 @@ public class Server {
         .setCurrency("usd")
         .setAmount(1999L)
         .addPaymentMethodType("card")
-        .addPaymentMethodType("link")
+        // .addPaymentMethodType("link") // reenable once GA
         .build();
 
       try {

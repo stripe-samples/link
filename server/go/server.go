@@ -115,8 +115,8 @@ func handleWebhook(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if event.Type == "checkout.session.completed" {
-		fmt.Println("Checkout Session completed!")
+	if event.Type == "payment_intent.succeeded" {
+		fmt.Println("Payment received!")
 	}
 
 	writeJSON(w, nil)
