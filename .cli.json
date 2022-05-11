@@ -6,9 +6,6 @@
       "name": "main",
       "clients": ["html", "react-cra"],
       "servers": [
-        "dotnet",
-        "go",
-        "java",
         "node",
         "php",
         "python",

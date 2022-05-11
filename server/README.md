@@ -10,7 +10,9 @@ instructions in the directory on how to run.
 * [Python (Flask)](python/README.md)
 * [Ruby (Sinatra)](ruby/README.md)
 * [PHP (Slim)](php/README.md)
+
+
+Coming soon (post beta):
 * [Java (Spark)](java/README.md)
 * [Go](go/README.md)
 * [.NET](dotnet/README.md)
-* [TypeScript (Node)](node-typescript/README.md)
