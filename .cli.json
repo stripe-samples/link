@@ -1,5 +1,5 @@
 {
-  "name": "link-with-stripe",
+  "name": "link",
   "configureDotEnv": true,
   "integrations": [
     {

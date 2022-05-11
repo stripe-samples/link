@@ -13,9 +13,9 @@ LINK_PERSISTENT_TOKEN_COOKIE_NAME = 'stripe.link.persistent_token'
 
 # For sample support and debugging, not required for production:
 stripe.set_app_info(
-    'stripe-samples/link-with-stripe',
+    'stripe-samples/link',
     version='0.0.1',
-    url='https://github.com/stripe-samples/link-with-stripe')
+    url='https://github.com/stripe-samples/link')
 
 stripe.api_version = '2020-08-27;link_beta=v1'
 stripe.api_key = os.getenv('STRIPE_SECRET_KEY')

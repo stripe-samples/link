@@ -32,7 +32,7 @@ If you haven't already installed the CLI, follow the [installation steps](https:
 In your terminal shell, run the Stripe CLI command to clone the sample:
 
 ```bash
-stripe samples create link-with-stripe
+stripe samples create link
 ```
 
 The CLI will walk you through picking your integration type, server and client
@@ -43,7 +43,7 @@ languages, and configuring your .env config file with your Stripe API keys.
 If you do not want to use the Stripe CLI, you can manually clone and configure the sample yourself:
 
 ```bash
-git clone https://github.com/stripe-samples/link-with-stripe
+git clone https://github.com/stripe-samples/link
 ```
 
 Copy the `.env.example` file into a file named .env in the folder of the server

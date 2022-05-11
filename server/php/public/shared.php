@@ -49,9 +49,9 @@ STRIPE_WEBHOOK_SECRET=whsec_...</pre>
 
 // For sample support and debugging. Not required for production:
 \Stripe\Stripe::setAppInfo(
-  "stripe-samples/link-with-stripe",
+  "stripe-samples/link",
   "0.0.1",
-  "https://github.com/stripe-samples/link-with-stripe"
+  "https://github.com/stripe-samples/link"
 );
 
 $stripe = new \Stripe\StripeClient([
