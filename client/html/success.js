@@ -10,7 +10,6 @@ document.addEventListener('DOMContentLoaded', async (e) => {
   const params = new URLSearchParams(window.location.search);
   const clientSecret = params.get('payment_intent_client_secret');
 
-
   // Retrieve the PaymentIntent.
   const {paymentIntent} = await stripe.retrievePaymentIntent(clientSecret)
   addMessage("Payment Intent Status: " + paymentIntent.status);
