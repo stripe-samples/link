@@ -3,6 +3,8 @@
 | :exclamation:  This payment method is limited to US based Stripe Accounts accepting USD. It's still in beta, please email link-beta@stripe.com to request access.   |
 |-------------------------------------------------------------------------------------------------------------|
 
+Watch the [video](https://youtu.be/-ufvKuYAtSg) to learn more.
+
 This sample shows how to integrate Link which allows your customers
 to check out faster using a one-time-code.
 
