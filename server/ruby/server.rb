@@ -14,7 +14,6 @@ Stripe.set_app_info(
   version: '0.0.1',
   url: 'https://github.com/stripe-samples/link'
 )
-Stripe.api_version = '2020-08-27;link_beta=v1'
 Stripe.api_key = ENV['STRIPE_SECRET_KEY']
 LINK_PERSISTENT_TOKEN_COOKIE_NAME = 'stripe.link.persistent_token'
 
