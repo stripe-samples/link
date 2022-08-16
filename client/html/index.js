@@ -1,17 +1,15 @@
 document.addEventListener('DOMContentLoaded', async (e) => {
-  const {publishableKey} = await fetch("/config").then(res => res.json());
+  const { publishableKey } = await fetch("/config").then(res => res.json());
 
   const stripe = Stripe(publishableKey, {
-    betas: ['link_beta_2'],
-    apiVersion: "2020-08-27;link_beta=v1"
+    betas: ['shipping_address_element_beta_1']
   });
 
-  const {clientSecret} = await fetch("/create-payment-intent", {
+  const { clientSecret } = await fetch("/create-payment-intent", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
-    },
-    body: JSON.stringify({})
+    }
   }).then(res => res.json());
 
   addMessage(`Client secret: ${clientSecret}`);
@@ -28,7 +26,7 @@ document.addEventListener('DOMContentLoaded', async (e) => {
   };
 
   // Create an elements group from the Stripe instance, passing the clientSecret (obtained in step 2) and appearance (optional).
-  const elements = stripe.elements({clientSecret, appearance});
+  const elements = stripe.elements({ clientSecret, appearance });
 
   // Create and mount the Payment Element
   const paymentElement = elements.create("payment");
@@ -57,7 +55,7 @@ document.addEventListener('DOMContentLoaded', async (e) => {
 
 
   // Create and mount the Shipping Address Element
-  const shippingAddressElement = elements.create("shippingAddress", {allowedCountries: ['US']});
+  const shippingAddressElement = elements.create("shippingAddress", { allowedCountries: ['US'] });
   shippingAddressElement.mount("#shipping-address-element");
 
   // If you need access to the shipping address entered
@@ -72,7 +70,7 @@ document.addEventListener('DOMContentLoaded', async (e) => {
     addMessage('Submitting payment...');
     event.preventDefault();
 
-    const {error} = await stripe.confirmPayment({
+    const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
         return_url: "http://localhost:4242/payment/next",

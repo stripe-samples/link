@@ -55,6 +55,5 @@ STRIPE_WEBHOOK_SECRET=whsec_...</pre>
 );
 
 $stripe = new \Stripe\StripeClient([
-  'api_key' => $_ENV['STRIPE_SECRET_KEY'],
-  'stripe_version' => '2020-08-27;link_beta=v1',
+  'api_key' => $_ENV['STRIPE_SECRET_KEY']  
 ]);
