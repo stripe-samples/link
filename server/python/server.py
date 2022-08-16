@@ -17,7 +17,6 @@ stripe.set_app_info(
     version='0.0.1',
     url='https://github.com/stripe-samples/link')
 
-stripe.api_version = '2020-08-27;link_beta=v1'
 stripe.api_key = os.getenv('STRIPE_SECRET_KEY')
 
 static_dir = str(
