@@ -35,7 +35,6 @@ end
 
 post '/create-payment-intent' do
   content_type 'application/json'
-  data = JSON.parse(request.body.read)
 
   # Create the payment details based on your logic.
   # Create a PaymentIntent with the purchase amount and currency.
