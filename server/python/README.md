@@ -1,4 +1,4 @@
-# Name of sample
+# Checkout faster with Link
 
 ## Requirements## Requirements
 

@@ -1,4 +1,4 @@
-# Your sample name
+# Checkout faster with Link
 
 An implementation in PHP
 

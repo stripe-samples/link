@@ -1,4 +1,4 @@
-# Name of sample
+# Checkout faster with Link
 
 An [Express server](http://expressjs.com) implementation
 

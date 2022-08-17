@@ -1,4 +1,4 @@
-# Placing a hold
+# Checkout faster with Link
 
 An [.NET](https://dotnet.microsoft.com/download/dotnet) implementation.
 
