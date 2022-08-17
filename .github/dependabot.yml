@@ -45,8 +45,8 @@ updates:
   #   schedule:
   #     interval: "weekly"
   #
-  # # dotnet dependencies
-  # - package-ecosystem: "nuget"
-  #   directory: "/server/dotnet/"
-  #   schedule:
-  #     interval: "weekly"
+  # dotnet dependencies
+  - package-ecosystem: "nuget"
+    directory: "/server/dotnet/"
+    schedule:
+      interval: "weekly"
