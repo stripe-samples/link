@@ -30,7 +30,7 @@ const PaymentSuccess = () => {
   return (
     <div className="sr-root">
       <div className="sr-main">
-        <h1>Success!</h1>
+        <h1>Success</h1>
 
         <div id="messages" style={{display: "block"}}>
           {messages}
