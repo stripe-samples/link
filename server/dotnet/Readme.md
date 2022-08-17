@@ -1,11 +1,11 @@
 # Checkout faster with Link
 
-An implementation in PHP
-
+An [.NET](https://dotnet.microsoft.com/download/dotnet) implementation.
 
 ## Requirements
 
-- PHP
+* [.NET 6](https://get.dot.net/) or above
+* [Configured .env file](../../README.md)
 
 ## How to run
 
@@ -26,23 +26,10 @@ STRIPE_WEBHOOK_SECRET=whsec_...
 STATIC_DIR=../../client/html
 ```
 
-2. Run composer to set up dependencies
+2. Run the application
 
 ```
-composer install
+dotnet run 
 ```
 
-3. Copy .env.example to .env and replace with your Stripe API keys
-
-```
-cp ../../.env.example .env
-```
-
-4. Run the server locally
-
-```
-cd public
-php -S 127.0.0.1:4242
-```
-
-4. Go to [localhost:4242](http://localhost:4242)
+4. Go to `localhost:4242` to see the demo.

@@ -1,4 +1,4 @@
-# Name of sample
+# Checkout faster with Link
 
 A [Sinatra](http://sinatrarb.com/) implementation.
 
