@@ -28,9 +28,8 @@ RSpec.describe 'PaymentElement', type: :system do
     end
 
     click_on 'Pay'
-    sleep(2)
 
-    expect(page).to have_no_content('Pay now')
+    expect(page).to have_no_content('Accept a payment')
     expect(page).to have_content('Success')
     expect(page).to have_content('Payment Intent Status: succeeded')
   end

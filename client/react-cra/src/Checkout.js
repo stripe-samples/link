@@ -60,7 +60,7 @@ const PaymentForm = () => {
 
           <h3>Payment</h3>
           <PaymentElement />
-          <button type="submit">Submit</button>
+          <button type="submit">Pay</button>
         </form>
 
         <div id="messages">
