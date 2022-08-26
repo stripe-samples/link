@@ -13,7 +13,7 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY, {
   }
 });
 
-app.use("/", express.static(`${process.env.STATIC_DIR}/html/`));
+app.use(express.static(process.env.STATIC_DIR));
 
 // need cookieParser middleware so that we can persist the Link session.
 app.use(cookieParser());
@@ -113,7 +113,7 @@ app.get('/payment/next', async (req, res) => {
 });
 
 app.get('/success', async (req, res) => {
-  const path = resolve(process.env.STATIC_DIR + '/html/success.html');
+  const path = resolve(process.env.STATIC_DIR + '/success.html');
   res.sendFile(path);
 });
 
