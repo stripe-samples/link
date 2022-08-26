@@ -31,11 +31,6 @@ app.use(
   })
 );
 
-app.get('/', (req, res) => {
-  const path = resolve(process.env.STATIC_DIR + '/index.html');
-  res.sendFile(path);
-});
-
 app.get('/config', (req, res) => {
   res.send({
     publishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
