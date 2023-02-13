@@ -1,9 +1,7 @@
 document.addEventListener('DOMContentLoaded', async (e) => {
   const { publishableKey } = await fetch("/config").then(res => res.json());
 
-  const stripe = Stripe(publishableKey, {
-    betas: ['shipping_address_element_beta_1']
-  });
+  const stripe = Stripe(publishableKey);
 
   const { clientSecret } = await fetch("/create-payment-intent", {
     method: "POST",
