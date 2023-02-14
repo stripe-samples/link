@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', async (e) => {
 
 
   // Create and mount the Shipping Address Element
-  const shippingAddressElement = elements.create("shippingAddress", { allowedCountries: ['US'] });
+  const shippingAddressElement = elements.create("address", { mode: 'shipping', allowedCountries: ['US'] });
   shippingAddressElement.mount("#shipping-address-element");
 
   // If you need access to the shipping address entered

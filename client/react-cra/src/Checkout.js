@@ -4,7 +4,7 @@ import {
   Elements,
   LinkAuthenticationElement,
   PaymentElement,
-  ShippingAddressElement,
+  AddressElement,
   useStripe,
   useElements,
 } from "@stripe/react-stripe-js";
@@ -49,8 +49,8 @@ const PaymentForm = () => {
           />
 
           <h3>Shipping address</h3>
-          <ShippingAddressElement
-            options={{allowedCountries: ['US']}}
+          <AddressElement
+            options={{mode: 'shipping', allowedCountries: ['US']}}
 
             // Access the address like so:
             // onChange={(event) => {

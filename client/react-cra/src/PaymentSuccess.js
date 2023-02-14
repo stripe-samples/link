@@ -1,13 +1,8 @@
 import {useState, useEffect} from 'react';
 import { useSearchParams } from "react-router-dom";
-import {loadStripe} from "@stripe/stripe-js";
 import {
   Elements,
-  LinkAuthenticationElement,
-  PaymentElement,
-  ShippingAddressElement,
   useStripe,
-  useElements,
 } from "@stripe/react-stripe-js";
 
 const PaymentSuccess = () => {
