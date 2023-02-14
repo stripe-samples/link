@@ -12,7 +12,7 @@ instructions in the directory on how to run.
 * [PHP (Slim)](php/README.md)
 
 
-Coming soon (post beta):
+Coming soon:
 * [Java (Spark)](java/README.md)
 * [Go](go/README.md)
 * [.NET](dotnet/README.md)

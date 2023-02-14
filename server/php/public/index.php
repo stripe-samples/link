@@ -77,10 +77,7 @@ try {
     </div>
     <script>
       document.addEventListener('DOMContentLoaded', async (e) => {
-        const stripe = Stripe('<?= $_ENV["STRIPE_PUBLISHABLE_KEY"] ?>', {
-          betas: ['link_beta_2'],
-          apiVersion: "2020-08-27;link_beta=v1"
-        });
+        const stripe = Stripe('<?= $_ENV["STRIPE_PUBLISHABLE_KEY"] ?>');
 
         const clientSecret = '<?= $paymentIntent->client_secret ?>';
         addMessage(`Client secret: ${clientSecret}`);

@@ -1,8 +1,5 @@
 # Link
 
-| :exclamation:  This payment method is limited to US based Stripe Accounts accepting USD. It's still in beta, please email link-beta@stripe.com to request access.   |
-|-------------------------------------------------------------------------------------------------------------|
-
 Watch the [video](https://youtu.be/-ufvKuYAtSg) to learn more.
 
 This sample shows how to integrate Link which allows your customers
@@ -101,7 +98,14 @@ A: We chose the most minimal framework to convey the key Stripe calls and concep
 
 ## Get support
 
-For questions about Link, please reach out to link-beta@stripe.com for support.
+If you found a bug or want to suggest a new [feature/use case/sample], please [file an issue](../../issues).
+
+If you have questions, comments, or need help with code, we're here to help:
+- on [Discord](https://stripe.com/go/developer-chat)
+- on Twitter at [@StripeDev](https://twitter.com/StripeDev)
+- on Stack Overflow at the [stripe-payments](https://stackoverflow.com/tags/stripe-payments/info) tag
+
+Sign up to [stay updated with developer news](https://go.stripe.global/dev-digest).
 
 ## Author(s)
 
