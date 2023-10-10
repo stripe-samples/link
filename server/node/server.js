@@ -1,5 +1,4 @@
 const express = require('express');
-const cookieParser = require('cookie-parser');
 const app = express();
 const { resolve } = require('path');
 // Replace if using a different env file or config
@@ -14,10 +13,6 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY, {
 });
 
 app.use(express.static(process.env.STATIC_DIR));
-
-// need cookieParser middleware so that we can persist the Link session.
-app.use(cookieParser());
-const linkPersistentTokenCookieName = 'stripe.link.persistent_token';
 
 app.use(
   express.json({
@@ -56,14 +51,6 @@ app.post('/create-payment-intent', async (req, res) => {
       //   automatic_payment_methods: { enabled: true },
       //
       payment_method_types: ['link', 'card'],
-
-      // Optionally, include the link persistent token for the cookied
-      // Link session.
-      payment_method_options: {
-        link: {
-          persistent_token: req.cookies[linkPersistentTokenCookieName],
-        }
-      }
     });
 
     // Send publishable key and PaymentIntent details to client
@@ -88,26 +75,6 @@ app.get('/payment/next', async (req, res) => {
     }
   );
   const status = intent.status;
-
-  if (status === "succeeded" || status === "processing") {
-    // If a valid Link session (created during the Link authentication flow
-    // by the Payment Element code) is associated with the PaymentIntent, it
-    // will be made available on the Payment Method object.
-    const linkPersistentToken = intent.payment_method?.link?.persistent_token;
-
-    if (!!linkPersistentToken) {
-      // Set the cookie from the value returned on the PaymentIntent.
-      res.cookie(linkPersistentTokenCookieName,
-        linkPersistentToken,
-        {
-          sameSite: 'strict',
-          secure: true,
-          httpOnly: true,
-          expires: new Date(Date.now() + 90 * 24 * 3600 * 1000),
-        }
-      );
-    }
-  }
 
   res.redirect(`/success?payment_intent_client_secret=${intent.client_secret}`);
 });

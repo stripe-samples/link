@@ -3,7 +3,6 @@ using Microsoft.Extensions.Options;
 using Stripe;
 
 DotNetEnv.Env.Load();
-const string LINK_PERSISTENT_TOKEN_COOKIE_NAME = "stripe.link.persistent_token";
 StripeConfiguration.ApiKey = Environment.GetEnvironmentVariable("STRIPE_SECRET_KEY");
 
 StripeConfiguration.AppInfo = new AppInfo
@@ -52,13 +51,6 @@ app.MapPost("/create-payment-intent", async (HttpRequest request, IOptions<Strip
             Amount = 1999,
             Currency = "usd",
             PaymentMethodTypes = new List<string> { "link", "card" },
-            PaymentMethodOptions = new()
-            {
-                Link = new()
-                {
-                    PersistentToken = request.Cookies[LINK_PERSISTENT_TOKEN_COOKIE_NAME]
-                }
-            }
         };
 
         var paymentIntent = await paymentIntentSvc.CreateAsync(piOptions);
@@ -80,20 +72,6 @@ app.MapGet("/payment/next", async (string payment_intent, HttpResponse response)
     {
         Expand = new List<string> { "payment_intent" }
     });
-
-    string linkPersistentToken = (paymentIntent.Status == "succeeded" || paymentIntent.Status == "processing") ?
-        paymentIntent.PaymentMethod.Link.PersistentToken : null;
-
-    if (linkPersistentToken is not null)
-    {
-        response.Cookies.Append(LINK_PERSISTENT_TOKEN_COOKIE_NAME, linkPersistentToken, new()
-        {
-            SameSite = SameSiteMode.Strict,
-            Secure = true,
-            HttpOnly = true,
-            Expires = DateTime.Now.Add(TimeSpan.FromDays(90))
-        });
-    }
 
     Results.Redirect($"/success?payment_intent_client_secret={paymentIntent.ClientSecret}");
 });
