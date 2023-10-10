@@ -2,11 +2,6 @@
 require './shared.php';
 
 try {
-  $linkOptions = [];
-  if(isset($_COOKIE['stripe_link_persistent_token'])) {
-    $linkOptions = ['persistent_token' => $_COOKIE['stripe_link_persistent_token']];
-  }
-
   $paymentIntent = $stripe->paymentIntents->create([
     'amount' => 1999,
     'currency' => 'usd',
@@ -19,12 +14,6 @@ try {
     //   'automatic_payment_methods' => [ 'enabled' => true ],
     //
     'payment_method_types' => ['link', 'card'],
-
-    // Optionally, include the link persistent token for the cookied
-    // Link session.
-    'payment_method_options' => [
-      'link' => $linkOptions,
-    ]
   ]);
 } catch (\Stripe\Exception\ApiErrorException $e) {
   http_response_code(400);

@@ -9,8 +9,6 @@ from dotenv import load_dotenv, find_dotenv
 
 load_dotenv(find_dotenv())
 
-LINK_PERSISTENT_TOKEN_COOKIE_NAME = 'stripe.link.persistent_token'
-
 # For sample support and debugging, not required for production:
 stripe.set_app_info(
     'stripe-samples/link',
@@ -55,14 +53,6 @@ def create_payment():
             #
             payment_method_types=['link', 'card'],
 
-            # Optionally, include the link persistent token for the cookied
-            # Link session.
-            payment_method_options={
-                'link': {
-                    'persistent_token': request.cookies.get(LINK_PERSISTENT_TOKEN_COOKIE_NAME),
-                }
-            })
-
         # Send PaymentIntent details to the front end.
         return jsonify({'clientSecret': intent.client_secret})
     except stripe.error.StripeError as e:
@@ -77,24 +67,8 @@ def payment_next():
         request.args.get('payment_intent'),
         expand=['payment_method'])
 
-    if intent.status == 'succeeded' or intent.status == 'processing':
-        try:
-            link_persistent_token = intent.payment_method.link.persistent_token
-        except:
-            link_persistent_token = None
-
     response = make_response(
         redirect('/success?payment_intent_client_secret={}'.format(intent.client_secret)))
-
-    if link_persistent_token is not None:
-        # Set the cookie from the value returned on the PaymentIntent.
-        response.set_cookie(
-            LINK_PERSISTENT_TOKEN_COOKIE_NAME,
-            link_persistent_token,
-            samesite='Strict',
-            secure=True,
-            httponly=True,
-            expires=datetime.datetime.now() + datetime.timedelta(days=90))
 
     return response
 

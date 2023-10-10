@@ -15,7 +15,6 @@ Stripe.set_app_info(
   url: 'https://github.com/stripe-samples/link'
 )
 Stripe.api_key = ENV['STRIPE_SECRET_KEY']
-LINK_PERSISTENT_TOKEN_COOKIE_NAME = 'stripe.link.persistent_token'
 
 set :static, true
 set :public_folder, File.join(File.dirname(__FILE__), ENV['STATIC_DIR'])
@@ -50,14 +49,6 @@ post '/create-payment-intent' do
     #   automatic_payment_methods: { enabled: true },
     #
     payment_method_types: ['link', 'card'],
-
-    # Optionally, include the link persistent token for the cookied
-    # Link session.
-    payment_method_options: {
-      link: {
-        persistent_token: cookies[LINK_PERSISTENT_TOKEN_COOKIE_NAME],
-      }
-    }
   )
 
   # Send the PaymentIntent client_secret to the client.
@@ -73,29 +64,6 @@ get '/payment/next' do
     id: params[:payment_intent],
     expand: ['payment_method'],
   })
-
-  if intent.status == 'succeeded' || intent.status == 'processing'
-    begin
-      # Set the cookie to the persistent token of the Link session.
-      # This will ensure the customer can avoid logging in again next time
-      # if they are in the same session.
-      link_persistent_token = intent.payment_method.link.persistent_token
-      if !link_persistent_token.nil?
-        response.set_cookie(
-          LINK_PERSISTENT_TOKEN_COOKIE_NAME,
-          {
-            value: link_persistent_token,
-            same_site: :strict,
-            secure: true,
-            httponly: true,
-            expires: Time.now + (60 * 60 * 24 * 90), # 90 days from now.
-          }
-        )
-      end
-    rescue NoMethodError => e
-      puts "No method error #{e.message}"
-    end
-  end
 
   redirect "/success?payment_intent_client_secret=#{intent.client_secret}"
 end

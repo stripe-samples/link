@@ -3,18 +3,6 @@ require './shared.php';
 
 try {
   $paymentIntent = $stripe->paymentIntents->retrieve($_GET['payment_intent'], ['expand' => ['payment_method']]);
-
-  if ($paymentIntent->payment_method->link->persistent_token) {
-    setcookie(
-      'stripe.link.persistent_token',
-      $paymentIntent->payment_method->link->persistent_token,
-      time() + (86400 * 90), // expires in 90 days
-      "/", // path
-      "localhost", // domain
-      true, // secure
-      true  // httponly
-    );
-  }
 } catch (\Stripe\Exception\ApiErrorException $e) {
   http_response_code(400);
   error_log($e->getError()->message);
