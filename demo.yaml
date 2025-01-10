@@ -1,0 +1,56 @@
+# min 5 chars
+name: "Link & address element Demo"
+
+# acct_xxxx
+acct_id: "acct_1JK2VFLBM2ZiyHQm"
+
+# date your demo was created
+# format: 2021-06-01
+created_date: 2022-05-20
+
+# Your app will be available at both domains:
+# https://<subdomain>.stripedemos.com
+# https://<subdomain>.stripesandbox.com
+# recommendation: obfuscate the URL a bit by adding a random string
+subdomain: "link-address-demo"
+
+# min 5 chars
+description: "autofill address"
+
+# Slack username
+creator: kater
+
+# port
+port: 8080
+
+# private
+private: false
+
+# the slack channel of your team (ex: #solutions)
+team: "#solutions"
+
+# enter a simple password here you can provide to your customer
+# leave blank for no password
+password:
+
+# date you want your deployment to be deleted prior to 6 mos
+# (You can always re-deploy it; your code will not be deleted)
+# format: 2021-06-01
+exp_date:
+
+# all demos have a max deployment life of 6 months
+# unless you set the following to true
+persistent: true
+
+# if you need to reduce coldstarts, say how many instances you want
+# see https://cloud.google.com/run/docs/configuring/min-instances#command-line
+min_instances: 0
+
+# if you need a database, add one of the following:
+# 'mysql' or 'postgres'
+db_type:
+
+# your app will automatically be moved to the _archive folder
+# after 90 days if it is not deployed at that time
+# To prevent that, set the following field to false
+archivable: false

@@ -38,22 +38,22 @@ document.addEventListener('DOMContentLoaded', async (e) => {
   // If the customer's email is known when the page is loaded, you can
   // pass the email to the linkAuthenticationElement on mount:
   //
-  //   linkAuthenticationElement.mount("#link-authentication-element",  {
-  //     defaultValues: {
-  //       email: 'jenny.rosen@example.com',
-  //     }
-  //   })
+    // linkAuthenticationElement.mount("#link-authentication-element",  {
+    //   defaultValues: {
+    //     email: 'jenny.rosen@example.com',
+    //   }
+    // })
 
   // If you need access to the email address entered:
   //
-  //  linkAuthenticationElement.on('change', (event) => {
-  //    const email = event.value.email;
-  //    console.log({ email });
-  //  })
+   linkAuthenticationElement.on('change', (event) => {
+     const email = event.value.email;
+     console.log({ email });
+   })
 
 
   // Create and mount the Shipping Address Element
-  const shippingAddressElement = elements.create("address", { mode: 'shipping', allowedCountries: ['US'] });
+  const shippingAddressElement = elements.create("address", { mode: 'shipping'}); //AllowedCountries: ['US'] });
   shippingAddressElement.mount("#shipping-address-element");
 
   // If you need access to the shipping address entered
