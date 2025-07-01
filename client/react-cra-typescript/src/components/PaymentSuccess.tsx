@@ -14,16 +14,22 @@ export const PaymentSuccess: React.FC = () => {
 
     const clientSecret = searchParams.get("payment_intent_client_secret");
     if (clientSecret) {
-      stripe
-        .retrievePaymentIntent(clientSecret)
-        .then(({ paymentIntent }) => {
+      const retrievePayment = async () => {
+        try {
+          const { paymentIntent } = await stripe.retrievePaymentIntent(
+            clientSecret
+          );
           if (paymentIntent) {
             setMessages(`Payment Intent: ${paymentIntent.id}`);
           }
-        })
-        .catch((error) => {
-          setMessages(`Error retrieving payment: ${error.message}`);
-        });
+        } catch (error) {
+          const errorMessage =
+            error instanceof Error ? error.message : "Unknown error";
+          setMessages(`Error retrieving payment: ${errorMessage}`);
+        }
+      };
+
+      retrievePayment();
     }
   }, [searchParams, stripe]);
 

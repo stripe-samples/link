@@ -23,26 +23,33 @@ export const Checkout: React.FC<CheckoutProps> = ({ stripePromise }) => {
 
   useEffect(() => {
     // Create PaymentIntent as soon as the page loads
-    fetch("/create-payment-intent", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then(({ clientSecret }) => setClientSecret(clientSecret))
-      .catch((error) => {
+    const createPaymentIntent = async () => {
+      try {
+        const res = await fetch("/create-payment-intent", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        const { clientSecret } = await res.json();
+        setClientSecret(clientSecret);
+      } catch (error) {
         console.error("Error creating payment intent:", error);
-      });
+      }
+    };
+
+    createPaymentIntent();
   }, []);
 
-  if (clientSecret && stripePromise) {
-    return (
-      <Elements stripe={stripePromise} options={{ clientSecret, appearance }}>
-        <PaymentForm />
-      </Elements>
-    );
-  } else {
-    return <div>Loading...</div>;
-  }
+  return (
+    <div>
+      {clientSecret && stripePromise ? (
+        <Elements stripe={stripePromise} options={{ clientSecret, appearance }}>
+          <PaymentForm />
+        </Elements>
+      ) : (
+        <div className="loading">Loading…</div>
+      )}
+    </div>
+  );
 };
