@@ -6,7 +6,7 @@ A sample project that uses the following elements to build a checkout form:
 - 📦 Shipping Address Element
 - 💳 Payment Element
 
-The implementations are intentionally kept simple to highlight how to use Stripe Elements to quickly build a checkout form. For both client and server implementations, we’ve provided a few options—pick one of each and refer to the README files in their respective directories for setup instructions.
+The implementations are intentionally kept simple to highlight how to use Stripe Elements to quickly build a checkout form. For both client and server implementations, we've provided a few options—pick one of each based on what you're most comfortable with and refer to the README files in their respective directories for setup instructions.
 
 ## Requirements
 
@@ -40,10 +40,19 @@ STATIC_DIR=client/html
 **Important:** Replace the placeholder values with your actual Stripe API keys. You can find these in your [Stripe Dashboard](https://dashboard.stripe.com/test/apikeys).
 
 2. Pick an option for your server
-   go to the [server](./server/) directory, pick one option and follow the README instructions in that directory to set that up. Then run your server.
+
+Go to the [server](./server/) directory and pick one of the following options:
+
+- [server.js (Node/Express)](./server/server.js)
 
 3. Pick an option for your client
 
-go to the [client](./client/) directory, pick one option and follow its instructions.
+Go to the [client](./client/) directory and pick one of the following options:
+
+- [client/html](./client/html) — Simple HTML/JS implementation
+- [client/react-cra](./client/react-cra) — React (JavaScript, Create React App)
+- [client/react-cra-typescript](./client/react-cra-typescript) — React (TypeScript, Create React App)
+
+Pick whichever sample you feel most comfortable with. Each option has its own README for setup instructions.
 
 4. Go to `localhost:4242` to see the demo
