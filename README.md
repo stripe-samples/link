@@ -43,15 +43,16 @@ STATIC_DIR=client/html
 
 Go to the [server](./server/) directory and pick one of the following options:
 
-- [server.js (Node/Express)](./server/server.js)
+- [Node/Express](./server/node)
+- [Java](./server/java) — Java (Spark Java, Gradle)
 
 3. Pick an option for your client
 
 Go to the [client](./client/) directory and pick one of the following options:
 
-- [client/html](./client/html) — Simple HTML/JS implementation
-- [client/react-cra](./client/react-cra) — React (JavaScript, Create React App)
-- [client/react-cra-typescript](./client/react-cra-typescript) — React (TypeScript, Create React App)
+- [html](./client/html) — Simple HTML/JS implementation
+- [react-cra](./client/react-cra) — React (JavaScript, Create React App)
+- [react-cra-typescript](./client/react-cra-typescript) — React (TypeScript, Create React App)
 
 Pick whichever sample you feel most comfortable with. Each option has its own README for setup instructions.
 
