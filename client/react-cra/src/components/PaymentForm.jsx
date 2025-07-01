@@ -14,7 +14,7 @@ export const PaymentForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setMessages(`${messages}<br />Submitting payment...`);
+    setMessages("Submitting payment...");
 
     const { error } = await stripe.confirmPayment({
       elements,
@@ -24,8 +24,7 @@ export const PaymentForm = () => {
     });
 
     if (error) {
-      // handle error
-      setMessages(`${messages}<br />${error.message}`);
+      setMessages(`Error: ${error.message}`);
     }
   };
 
@@ -61,7 +60,7 @@ export const PaymentForm = () => {
           <button type="submit">Pay</button>
         </form>
 
-        <div id="messages">{messages}</div>
+        {messages && <div id="messages">{messages}</div>}
       </div>
     </div>
   );

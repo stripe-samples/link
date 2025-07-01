@@ -1,4 +1,5 @@
 import "./App.css";
+import "./components.css";
 import { Checkout } from "./Checkout";
 import { Success } from "./Success";
 
