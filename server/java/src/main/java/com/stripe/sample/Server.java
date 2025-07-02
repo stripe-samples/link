@@ -2,6 +2,8 @@ package com.stripe.sample;
 
 import java.util.HashMap;
 import java.nio.file.Paths;
+import java.nio.file.Path;
+import java.nio.file.Files;
 
 import static spark.Spark.get;
 import static spark.Spark.post;
@@ -9,32 +11,32 @@ import static spark.Spark.staticFiles;
 import static spark.Spark.port;
 
 import com.google.gson.Gson;
-import com.google.gson.annotations.SerializedName;
 
 import com.stripe.Stripe;
-import com.stripe.net.ApiResource;
+import com.stripe.exception.SignatureVerificationException;
+import com.stripe.exception.StripeException;
 import com.stripe.model.Event;
-import com.stripe.model.EventDataObjectDeserializer;
 import com.stripe.model.PaymentIntent;
-import com.stripe.exception.*;
 import com.stripe.net.Webhook;
 import com.stripe.param.PaymentIntentCreateParams;
 
 import io.github.cdimascio.dotenv.Dotenv;
 
 public class Server {
-    private static Gson gson = new Gson();
+    private static final Gson GSON = new Gson();
 
-    static class ConfigResponse {
-        private String publishableKey;
+    // Environment variable constants
+    private static final String STRIPE_SECRET_KEY = "STRIPE_SECRET_KEY";
+    private static final String STRIPE_PUBLISHABLE_KEY = "STRIPE_PUBLISHABLE_KEY";
+    private static final String STRIPE_WEBHOOK_SECRET = "STRIPE_WEBHOOK_SECRET";
+    private static final String STATIC_DIR = "STATIC_DIR";
 
-        public ConfigResponse(String publishableKey) {
-            this.publishableKey = publishableKey;
-        }
-    }
+    // Content type constants
+    private static final String APPLICATION_JSON = "application/json";
+    private static final String TEXT_HTML = "text/html";
 
-    static class FailureResponse {
-        private HashMap<String, String> error;
+    private static class FailureResponse {
+        private final HashMap<String, String> error;
 
         public FailureResponse(String message) {
             this.error = new HashMap<String, String>();
@@ -42,43 +44,61 @@ public class Server {
         }
     }
 
-    static class CreatePaymentResponse {
-        private String clientSecret;
+    private static class CreatePaymentResponse {
+        @SuppressWarnings("unused")
+        private final String clientSecret;
 
         public CreatePaymentResponse(String clientSecret) {
             this.clientSecret = clientSecret;
         }
     }
 
-    public static void main(String[] args) {
-        port(4242);
+    private static class ConfigResponse {
+        @SuppressWarnings("unused")
+        private final String publishableKey;
 
+        public ConfigResponse(String publishableKey) {
+            this.publishableKey = publishableKey;
+        }
+    }
+
+    public static void main(String[] args) {
         // Load .env from the project root (two directories up from server/java)
         Dotenv dotenv = Dotenv.configure()
                 .directory("../../")
                 .load();
 
-        Stripe.apiKey = dotenv.get("STRIPE_SECRET_KEY");
+        // Validate required environment variables
+        String stripeSecretKey = dotenv.get(STRIPE_SECRET_KEY);
+        if (stripeSecretKey == null || stripeSecretKey.trim().isEmpty()) {
+            System.err.println("ERROR: STRIPE_SECRET_KEY environment variable is required but not set!");
+            System.err.println("Please ensure your .env file contains STRIPE_SECRET_KEY=sk_test_...");
+            System.exit(1);
+        }
+
+        Stripe.apiKey = stripeSecretKey;
 
         // For sample support and debugging, not required for production:
         Stripe.setAppInfo(
-                "stripe-samples/link-with-stripe",
+                "stripe-samples/link",
                 "0.0.1",
-                "https://github.com/stripe-samples/link-with-stripe");
+                "https://github.com/stripe-samples/link");
 
         // Serve static files from the client directory
         staticFiles.externalLocation(
                 Paths.get(
                         Paths.get("").toAbsolutePath().toString(),
-                        dotenv.get("STATIC_DIR")).normalize().toString());
+                        dotenv.get(STATIC_DIR)).normalize().toString());
+
+        port(4242);
 
         get("/config", (request, response) -> {
-            response.type("application/json");
-            return gson.toJson(new ConfigResponse(dotenv.get("STRIPE_PUBLISHABLE_KEY")));
+            response.type(APPLICATION_JSON);
+            return GSON.toJson(new ConfigResponse(dotenv.get(STRIPE_PUBLISHABLE_KEY)));
         });
 
         post("/create-payment-intent", (request, response) -> {
-            response.type("application/json");
+            response.type(APPLICATION_JSON);
 
             PaymentIntentCreateParams params = PaymentIntentCreateParams.builder()
                     .setAmount(1999L)
@@ -94,13 +114,13 @@ public class Server {
                 PaymentIntent intent = PaymentIntent.create(params);
 
                 // Send PaymentIntent details to client
-                return gson.toJson(new CreatePaymentResponse(intent.getClientSecret()));
+                return GSON.toJson(new CreatePaymentResponse(intent.getClientSecret()));
             } catch (StripeException e) {
                 response.status(400);
-                return gson.toJson(new FailureResponse(e.getMessage()));
+                return GSON.toJson(new FailureResponse(e.getMessage()));
             } catch (Exception e) {
                 response.status(500);
-                return gson.toJson(new FailureResponse(e.getMessage()));
+                return GSON.toJson(new FailureResponse(e.getMessage()));
             }
         });
 
@@ -113,21 +133,21 @@ public class Server {
                 return "";
             } catch (StripeException e) {
                 response.status(400);
-                return gson.toJson(new FailureResponse(e.getMessage()));
+                return GSON.toJson(new FailureResponse(e.getMessage()));
             }
         });
 
         get("/success", (request, response) -> {
-            String staticDir = dotenv.get("STATIC_DIR");
-            String successPath = Paths.get(staticDir, "success.html").toString();
-            response.type("text/html");
-            return new String(java.nio.file.Files.readAllBytes(Paths.get(successPath)));
+            String staticDir = dotenv.get(STATIC_DIR);
+            Path successPath = Paths.get(staticDir, "success.html");
+            response.type(TEXT_HTML);
+            return Files.readString(successPath);
         });
 
         post("/webhook", (request, response) -> {
             String payload = request.body();
             String sigHeader = request.headers("Stripe-Signature");
-            String endpointSecret = dotenv.get("STRIPE_WEBHOOK_SECRET");
+            String endpointSecret = dotenv.get(STRIPE_WEBHOOK_SECRET);
 
             Event event = null;
 
