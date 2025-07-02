@@ -4,12 +4,10 @@
   "integrations": [
     {
       "name": "main",
-      "clients": ["html", "react-cra"],
+      "clients": ["html", "react-cra", "react-cra-typescript"],
       "servers": [
         "node",
-        "php",
-        "python",
-        "ruby"
+        "java"
       ]
     }
   ]
