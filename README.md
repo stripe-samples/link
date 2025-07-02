@@ -13,6 +13,16 @@ The implementations are intentionally kept simple to highlight how to use Stripe
 - Node v10+
 - Configured `.env` file
 
+## Installation
+
+The recommended way to use this Stripe Sample is with the [Stripe CLI](https://stripe.com/docs/stripe-cli#install):
+
+```sh
+stripe samples create link
+```
+
+You can also clone the repository and follow the instructions in the next section.
+
 ## How to run
 
 1. Set up your environment variables
