@@ -14,7 +14,7 @@ dependencies {
     implementation 'org.slf4j:slf4j-simple:1.7.32'
     implementation 'com.sparkjava:spark-core:2.9.3'
     implementation 'com.google.code.gson:gson:2.8.9'
-    implementation 'com.stripe:stripe-java:29.0.0'
+    implementation 'com.stripe:stripe-java:31.2.0'
     implementation 'io.github.cdimascio:java-dotenv:5.2.2'
 }
 
