@@ -5,6 +5,6 @@ export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   appInfo: {
     name: "stripe-samples/link-with-stripe",
     version: "0.0.1",
-    url: "https://github.com/stripe-samples/link-with-stripe",
+    url: "https://github.com/stripe-samples/link",
   },
 });
