@@ -26,6 +26,11 @@ public class Server {
     private static final Gson GSON = new Gson();
 
     // Environment variable constants
+    // Don't put any keys in code. Use an environment variable (as shown
+    // here) or secrets vault to supply keys to your integration.
+    //
+    // See https://docs.stripe.com/keys-best-practices and find your
+    // keys at https://dashboard.stripe.com/apikeys.
     private static final String STRIPE_SECRET_KEY = "STRIPE_SECRET_KEY";
     private static final String STRIPE_PUBLISHABLE_KEY = "STRIPE_PUBLISHABLE_KEY";
     private static final String STRIPE_WEBHOOK_SECRET = "STRIPE_WEBHOOK_SECRET";
