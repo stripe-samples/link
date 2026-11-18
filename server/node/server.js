@@ -10,6 +10,7 @@ const env = require('dotenv').config({ path: '../../.env' });
 // See https://docs.stripe.com/keys-best-practices and find your
 // keys at https://dashboard.stripe.com/apikeys.
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY, {
+  apiVersion: '2026-10-28.endive',
   appInfo: { // For sample support and debugging, not required for production:
     name: "stripe-samples/link-with-stripe",
     version: "0.0.1",
@@ -48,14 +49,9 @@ app.post('/create-payment-intent', async (req, res) => {
       amount: 1999,
       currency: 'usd',
 
-      // Best practice is to enable Link through the dashboard
-      // and use automatic payment methods. For this demo,
-      // we explicitly pass payment_method_types: ['link', 'card'],
-      // to be extra clear which payment method types are enabled.
-      //
-      //   automatic_payment_methods: { enabled: true },
-      //
-      payment_method_types: ['link', 'card'],
+      // Enable Link (and any other payment methods) through the
+      // dashboard: https://dashboard.stripe.com/settings/payment_methods
+      automatic_payment_methods: { enabled: true },
     });
 
     // Send publishable key and PaymentIntent details to client
